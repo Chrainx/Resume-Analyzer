@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
+# FastAPI virtual environment
+backend/venv/
+
+# Node modules
+frontend/node_modules/
+frontend/build/
+
+# OS files
+.DS_Store
+
+# Logs
+*.log
