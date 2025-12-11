@@ -1,10 +1,21 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Form
 import fitz
 from semantic_sections import semantic_section_detection
 from matching import compute_match, extract_resume_skills
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+# -------------------------------------
+# ✅ CORS: allow frontend to access API
+# -------------------------------------
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],      # allow all origins (or restrict later)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/analyze-resume")
 async def analyze_resume(file: UploadFile = File(...)):
@@ -27,7 +38,11 @@ async def analyze_resume(file: UploadFile = File(...)):
 
 
 @app.post("/match-job")
-async def match_resume(file: UploadFile = File(...), job_description: str = ""):
+async def match_resume(file: UploadFile = File(...), job_description: str = Form(...)):
+
+    print("\n===== JOB DESCRIPTION RECEIVED =====")
+    print(job_description)
+    print("====================================\n")
     content = await file.read()
 
     text = ""
