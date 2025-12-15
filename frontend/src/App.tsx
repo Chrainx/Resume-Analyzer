@@ -39,16 +39,36 @@ function App() {
         <h1 className="text-center text-4xl font-bold text-blue-400">
           AI Resume Analyzer
         </h1>
-        <UploadCard onFileChange={setFile} onAnalyze={handleAnalyze} />
+        <UploadCard
+          file={file}
+          onFileChange={setFile}
+          onAnalyze={handleAnalyze}
+          disabled={loading}
+        />
         <JobDescriptionCard
           jobDesc={jobDesc}
           setJobDesc={setJobDesc}
           onMatch={handleMatch}
+          disabled={loading}
         />
 
         {loading && <Loader />}
         {result && <ResumeAnalysis result={result} />}
         {score && <MatchScore score={score} />}
+
+        {(result || score) && (
+          <button
+            onClick={() => {
+              setResult(null)
+              setScore(null)
+              setFile(null)
+              setJobDesc('')
+            }}
+            className="w-full rounded-lg bg-red-500 p-3 font-semibold hover:bg-red-600"
+          >
+            Clear Results
+          </button>
+        )}
       </div>
     </div>
   )
